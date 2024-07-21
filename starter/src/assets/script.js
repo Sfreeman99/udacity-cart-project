@@ -51,7 +51,7 @@ let cart = [];
   - if the product is not already in the cart, add it to the cart
 */
 function addProductToCart(productId) {
-  for (let i = 0; i < products.length - 1; i++) {
+  for (let i = 0; i < products.length; i++) {
     if (products[i].productId == productId) {
       products[i].quantity += 1;
       if (!cart.includes(products[i])) {
@@ -67,7 +67,7 @@ function addProductToCart(productId) {
   - increaseQuantity should then increase the product's quantity
 */
 function increaseQuantity(productId) {
-  for (let i = 0; i < products.length - 1; i++) {
+  for (let i = 0; i < products.length; i++) {
     if (products[i].productId == productId) {
       products[i].quantity += 1;
       break;
@@ -81,6 +81,19 @@ function increaseQuantity(productId) {
   - if the function decreases the quantity to 0, the product is removed from the cart
 */
 function decreaseQuantity(productId) {
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].productId == productId) {
+      products[i].quantity -= 1;
+      if (products[i].quantity == 0 && cart.includes(products[i])) {
+        for (let ii = 0; ii < cart.length; ii++) {
+          if (cart[ii].productId == products[i].productId) {
+            cart.splice(ii, 1);
+          }
+        }
+      }
+      break;
+    }
+  }
 
 }
 /* Create a function named removeProductFromCart that takes in the productId as an argument
@@ -89,7 +102,16 @@ function decreaseQuantity(productId) {
   - removeProductFromCart should remove the product from the cart
 */
 function removeProductFromCart(productId) {
-
+  for (let i = 0; i < cart.length; i++) {
+    if (cart[i].productId == productId) {
+      for (let ii = 0; ii < products.length; ii++) {
+        if (products[ii].productId == cart[i].productId) {
+          products[ii].quantity = 0;
+        }
+      }
+      cart.splice(i, 1);
+    }
+  }
 }
 
 /* Create a function named cartTotal that has no parameters
@@ -98,12 +120,16 @@ function removeProductFromCart(productId) {
   Hint: price and quantity can be used to determine total cost
 */
 function cartTotal() {
-
+  let cartTotal = 0;
+  for (let i = 0; i < cart.length; i++) {
+    cartTotal += cart[i].quantity * cart[i].price;
+  }
+  return cartTotal;
 }
 
 /* Create a function called emptyCart that empties the products from the cart */
 function emptyCart() {
-
+  cart.splice(0)
 }
 /* Create a function named pay that takes in an amount as an argument
   - amount is the money paid by customer
@@ -112,7 +138,7 @@ function emptyCart() {
   Hint: cartTotal function gives us cost of all the products in the cart  
 */
 function pay(amount) {
-
+  return amount - cartTotal()
 }
 
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
