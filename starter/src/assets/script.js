@@ -138,7 +138,13 @@ function emptyCart() {
   Hint: cartTotal function gives us cost of all the products in the cart  
 */
 function pay(amount) {
-  return amount - cartTotal()
+
+  let total = cartTotal();
+  if (amount >= total) {
+    return amount - total;
+  } else {
+    return -(total - amount);
+  }
 }
 
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
